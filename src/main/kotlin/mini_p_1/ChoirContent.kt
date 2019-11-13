@@ -1,6 +1,6 @@
 package mini_p_1
 
-class ChoirContent (/* filename , ... */) : WebContent {
+class ChoirContent : WebContent {
   fun getMember(): List<Member> =
     TODO(" Implement ␣GET ␣/ member ")
 
