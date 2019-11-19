@@ -3,8 +3,8 @@ package mini_p_1
 import com.google.gson.Gson
 import java.io.File
 import java.net.ServerSocket
+import java.net.SocketException
 import kotlin.concurrent.thread
-import kotlin.reflect.full.memberFunctions
 
 interface WebContent {
   fun load()
@@ -63,10 +63,17 @@ class WebServer(private val content: ChoirContent, private val port: Int) {
   fun start() {
     println("Starting server at: localhost:$port")
     while (running) {
-      val socket = serverSocket.accept()
-      thread {
-        handle(Request(socket.getInputStream()), Response(socket.getOutputStream()))
+      try {
+        val socket = serverSocket.accept()
+        thread {
+          handle(Request(socket.getInputStream()), Response(socket.getOutputStream()))
+        }
+      } catch (e: SocketException) {
+        println("--------------- Socket Exception ---------------")
+        println(e.message)
+        println("------------------------------------------------")
       }
+
     }
   }
 
@@ -82,10 +89,7 @@ class WebServer(private val content: ChoirContent, private val port: Int) {
 data class Member(val id: Int, val name: String)
 
 class ChoirContent : WebContent {
-  private var members = mutableMapOf<Int, Member>(
-    7 to Member(7, "Kurt"),
-    17 to Member(17, "Sonja")
-  )
+  private var members = mutableMapOf<Int, Member>()
 
   init {
     load()
@@ -101,30 +105,19 @@ class ChoirContent : WebContent {
     val fileURI = javaClass.getResource("/Members.json").toURI()
     val json = File(fileURI).readText()
     val jsonList = Gson().fromJson(json, Array<Member>::class.java).toList()
-    jsonList.forEach {members[it.id] = it}
-    members = members.toSortedMap()
-    println(members)
+    jsonList.forEach { members[it.id] = it }
   }
 
   override fun save() {
     members = members.toSortedMap()
+    println(members)
     val fileURI = javaClass.getResource("/Members.json").toURI()
-    File(fileURI).bufferedWriter().use { out ->
-      members.forEach {
-        out.write(it.value.id.toString() + ":" + it.value.name)
-      }
-
-    }
+    val json = Gson().toJson(members.toList().map { it.second })
+    File(fileURI).writeText(json)
   }
+
 }
 
-fun listFunctions(content: Any) {
-  val contentType = content::class
-  println(contentType.simpleName)
-  contentType.memberFunctions.forEach {
-    println(it)
-  }
-}
 
 fun main() {
   val server = WebServer(ChoirContent(), 4711)

@@ -1,5 +1,13 @@
 [
   {
+    "id": 1,
+    "name": "Jens"
+  },
+  {
+    "id": 3,
+    "name": "Jesper"
+  },
+  {
     "id": 7,
     "name": "Kurt"
   },
@@ -8,19 +16,11 @@
     "name": "Michael"
   },
   {
-    "id": 17,
-    "name": "Sonja"
-  },
-  {
-    "id": 3,
-    "name": "Jesper"
-  },
-  {
     "id": 11,
     "name": "Bent"
   },
   {
-    "id": 1,
-    "name": "Jens"
+    "id": 17,
+    "name": "Sonja"
   }
 ]
