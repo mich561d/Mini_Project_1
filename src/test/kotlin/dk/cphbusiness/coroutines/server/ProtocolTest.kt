@@ -1,5 +1,8 @@
 package dk.cphbusiness.coroutines.server
 
+import mini_p_1.Method
+import mini_p_1.Request
+import mini_p_1.Response
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.io.ByteArrayOutputStream
