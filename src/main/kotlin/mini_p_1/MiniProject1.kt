@@ -109,11 +109,7 @@ class ChoirContent : WebContent {
     if( members.containsKey(member.id) ) {
       members.replace(member.id, member)
     }
-    return postMember(member)
-  }
-
-  private fun postMember(member: Member): Member {
-    if ( !members.containsKey(member.id) ) {
+    if( !members.containsKey(member.id)) {
       members[member.id] = member
       return member
     }

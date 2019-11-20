@@ -31,4 +31,8 @@ To start the web server, go to ``src\main\kotlin\mini_p_1\MiniProject1.kt`` and 
 ##### Put member
 ``localhost:4711/name=name:id``
 
+To save the member you are updating use:
+``localhost:4711/exit``
+which also terminates the server.
+
 ##### Test these endpoints in either Postman/Insomnia or in your web-browser
