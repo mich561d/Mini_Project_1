@@ -45,10 +45,8 @@ class WebServer(private val content: ChoirContent, private val port: Int) {
 
         }
         Method.PUT -> {
-          val name = resource.split("=")
-          val listOfMembers = content.load()
-          print(listOfMembers)
-          val member = Member(1, name.toString())
+          val split = resource.split("=")[1].split(":")
+          val member = Member(split[1].toInt(), split[0].toString())
           content.putMember(member)
         }
         Method.POST -> {
@@ -105,7 +103,7 @@ class ChoirContent : WebContent {
 
   fun putMember(member: Member): Member {
      if( member == null ) {
-      "This member does not exist"
+      "You havent send any member..."
     }
 
     if( members.containsKey(member.id) ) {
