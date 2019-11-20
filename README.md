@@ -29,6 +29,6 @@ To start the web server, go to ``src\main\kotlin\mini_p_1\MiniProject1.kt`` and 
 ``localhost:4711/member/id``
 
 ##### Put member
-``localhost:4711/name``
+``localhost:4711/name=name:id``
 
 ##### Test these endpoints in either Postman/Insomnia or in your web-browser
