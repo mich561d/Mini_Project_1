@@ -18,7 +18,7 @@ class WebServer(private val content: ChoirContent, private val port: Int) {
   private fun handle(request: Request, response: Response) {
     val method = request.method.toString()
     val resource = request.resource
-    println(resource)
+    //println(resource)
     if (resource == "/exit") {
       stop()
       response.body.append("Exit...")
@@ -45,7 +45,11 @@ class WebServer(private val content: ChoirContent, private val port: Int) {
 
         }
         Method.PUT -> {
-          response.body.append("Not implemented!")
+          val name = resource.split("=")
+          val listOfMembers = content.load()
+          print(listOfMembers)
+          val member = Member(1, name.toString())
+          content.putMember(member)
         }
         Method.POST -> {
           response.body.append("Not implemented!")
@@ -99,7 +103,24 @@ class ChoirContent : WebContent {
 
   fun getMember(id: Int): Member? = members[id]
 
-  fun putMember(member: Member): Member = members.put(member.id, member)!!
+  fun putMember(member: Member): Member {
+     if( member == null ) {
+      "This member does not exist"
+    }
+
+    if( members.containsKey(member.id) ) {
+      members.replace(member.id, member)
+    }
+    return postMember(member)
+  }
+
+  private fun postMember(member: Member): Member {
+    if ( !members.containsKey(member.id) ) {
+      members[member.id] = member
+      return member
+    }
+    return member
+  }
 
   override fun load() {
     val fileURI = javaClass.getResource("/Members.json").toURI()
